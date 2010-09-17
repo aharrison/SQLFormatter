@@ -1,0 +1,16 @@
+<project default="compile">
+
+  <path id="classpath">
+    <fileset dir="libs/" includes="**/*.jar" />
+    <fileset dir="generated/" includes="**/*.java" />
+  </path>
+  <target name="clean">
+    <delete dir="bin"/>
+  </target>
+
+  <target name="compile">
+    <mkdir dir="bin"/>
+    <javac srcdir="generated" destdir="bin" classpathref="classpath" />
+    <javac srcdir="src" destdir="bin" classpathref="classpath" />
+  </target>
+</project>
