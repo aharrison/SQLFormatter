@@ -12,10 +12,10 @@ test:
 	@./test-runner.rb
 
 generate:
-	java -cp libs/antlr-3.2.jar org.antlr.Tool src/SimpleCalc.g
-	mv SimpleCalc.tokens generated
-	mv src/SimpleCalcLexer.java generated
-	mv src/SimpleCalcParser.java generated
+	java -cp libs/antlr-3.2.jar org.antlr.Tool src/SQLFormatter.g
+	mv SQLFormatter.tokens generated
+	mv src/SQLFormatterLexer.java generated
+	mv src/SQLFormatterParser.java generated
 
 clean:
 	ant clean

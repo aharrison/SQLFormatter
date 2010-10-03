@@ -1,4 +1,4 @@
-grammar SimpleCalc;
+grammar SQLFormatter;
 
 @header {
   import static java.lang.System.out;
