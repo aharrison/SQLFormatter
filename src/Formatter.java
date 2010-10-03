@@ -4,15 +4,16 @@ import org.antlr.runtime.tree.*;
 
 public class Formatter {
     public static void main(String args[]) throws Exception {
-	ANTLRInputStream input = new ANTLRInputStream(System.in);
+	Formatter f = new Formatter();
+	SimpleCalcParser parser = f.createParser(System.in);
+	System.out.println(parser.statement());
+    }
+    
+    public SimpleCalcParser createParser(InputStream is) throws Exception {
+	ANTLRInputStream input = new ANTLRNoCaseInputStream(is);
         SimpleCalcLexer lex = new SimpleCalcLexer(input);
         CommonTokenStream tokens = new CommonTokenStream(lex);
         SimpleCalcParser parser = new SimpleCalcParser(tokens);
-
-	SimpleCalcParser.expr_return r = parser.expr();
-        if ( r!=null ) {
-	    CommonTree ct = (CommonTree)r.tree;
-	    System.out.println(ct.toStringTree());
-	}
+	return parser;
     }
 }

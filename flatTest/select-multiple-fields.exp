@@ -1,0 +1,5 @@
+SELECT 
+  f1,
+  f2,
+  f3
+FROM table2

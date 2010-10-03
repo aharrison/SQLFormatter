@@ -1,12 +1,15 @@
 default: all
 
-all: clean generate build
+all: clean generate build test
 
 build: 
 	ant
 	rm -f sql-parser.jar
 	jar cvfm sql-parser.jar manifest -C bin/ .
-	java -jar sql-parser.jar < flatTest/test1.in
+
+test:
+	@echo "Testing..."
+	@./test-runner.rb
 
 generate:
 	java -cp libs/antlr-3.2.jar org.antlr.Tool src/SimpleCalc.g

@@ -1,37 +1,64 @@
 grammar SimpleCalc;
 
-options { output=AST; }
+@header {
+  import static java.lang.System.out;
+}
 
-tokens {
-       PLUS	= '+' ;
-       MINUS	= '-' ;
-       MULT	= '*' ;
-       DIV	= '/' ;
+@members {
+    String s = "";
+    String dent = "  ";
 }
 
 /*------------------------------------------------------------------
  * PARSER RULES
  *------------------------------------------------------------------*/
 
-expr returns [int value] : 
-        term ( ( PLUS | MINUS )  term )* 
+statement returns [String s]:
+        select_statement
+        {
+            return this.s;
+        }
     ;
 
-
-term returns [int value] : 
-        factor ( ( MULT | DIV ) factor )* 
+select_statement :
+        SELECT { s += "SELECT "; }
+        select_list FROM WORD
+        { 
+          s += "\nFROM " + $WORD.text;
+        }
     ;
 
-factor returns [int value] : 
-        NUMBER { System.out.println($NUMBER.text); }
+select_list:
+        MULT { s += "*"; } 
+    | list_elem
+    ;
+
+list_elem:
+        w=WORD {s += "\n" + dent + $w.text;} 
+        (COMMA w=WORD {s += ",\n" + dent + $w.text;})*
     ;
 
 /*------------------------------------------------------------------
  * LEXER RULES
  *------------------------------------------------------------------*/
+PLUS : '+' ;
+MINUS : '-' ;
+MULT : '*' ;
+DIV	: '/' ;
+COMMA : ',';
+SELECT : 'select' ;
+FROM : 'from' ;
 
 NUMBER	: (DIGIT)+ ;
+WORD : (CHAR)(CHAR|DIGIT)+ ;
+
+
+
 
 WHITESPACE : ( '\t' | ' ' | '\r' | '\n'| '\u000C' )+	{ $channel = HIDDEN; } ;
 
+fragment CHAR : 'a'..'z' | 'A'..'Z' ;
+
 fragment DIGIT : '0'..'9' ;
+
+
