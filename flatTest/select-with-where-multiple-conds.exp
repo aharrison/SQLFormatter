@@ -1,0 +1,8 @@
+SELECT 
+  f1,
+  f2,
+  f3
+FROM table2
+WHERE
+  1 = 1
+  AND 2 = 2

@@ -1,0 +1,4 @@
+select f1, f2, f3 from table2 join joinedTable 
+on joinedTable.id = table2.joinid
+join joinedTable2
+on joinedTable2.id = joinedTable.joinid

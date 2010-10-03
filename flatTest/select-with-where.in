@@ -1,0 +1,2 @@
+select f1, f2, f3 from table2 
+where 1=1

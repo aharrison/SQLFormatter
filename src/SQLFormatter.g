@@ -27,6 +27,7 @@ select_statement :
           s += "\nFROM " + $WORD.text;
         }
         (join_clause)*
+        (WHERE { s += "\nWHERE\n  ";} conditional_list)?
     ;
 
 select_list:
@@ -36,11 +37,19 @@ select_list:
 
 join_clause:
         JOIN t=WORD ON { s+= "\n" + "JOIN " + $t.text + " ON "; }
-        conditional
+        conditional_list
     ;
+
+conditional_list:
+        conditional (boolean_operator conditional)*;
 
 conditional:
         access EQUALS { s+= " = "; } access
+    ;
+
+boolean_operator:
+        AND { s+= "\n" + dent + "AND "; }
+    |  OR { s+= "\n" + dent + "OR "; }
     ;
 
 list_elem:
@@ -50,9 +59,7 @@ list_elem:
 
 access:
         ( t=WORD DOT f=WORD ) { s += $t.text + "." + $f.text; }
-//    | NUMBER { s += 
-//    | WORD
-//    | SINGLEQUOTE WORD SINGLEQUOTE
+    | n=NUMBER { s += $n.text;}
     ;
 
 /*------------------------------------------------------------------
@@ -66,6 +73,7 @@ COMMA : ',';
 DOT : '.';
 SELECT : 'select' ;
 FROM : 'from' ;
+WHERE : 'where';
 JOIN : 'join' ;
 ON : 'on';
 EQUALS : '=';
@@ -73,6 +81,10 @@ NOTEQUALS : '!=';
 LESSGREATER : '<>';
 SINGLEQUOTE : '\'';
 DOUBLEQUOTE : '"';
+AND : 'and';
+OR : 'or';
+IS : 'is';
+ISNOT : 'is not';
 
 
 NUMBER	: (DIGIT)+ ;
